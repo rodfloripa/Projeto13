@@ -1,6 +1,6 @@
 pandas==0.23.4
 stemming==1.0.1
-numpy==1.14.2
+numpy==1.22.0
 Flask==0.12.2
 scikit_learn==0.21.2
 mod_wsgi==4.5.15

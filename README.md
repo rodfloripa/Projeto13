@@ -58,3 +58,52 @@ Verifique se a aplicação está em execução acessando:
 ```text
 http://localhost:8000
 ```
+
+## 6. Como Utilizar a API
+
+<p align="justify">
+Após iniciar o container, a aplicação ficará disponível na porta <code>8000</code>. A API recebe requisições HTTP do tipo <strong>POST</strong> contendo um arquivo CSV chamado <code>input.cluster</code>, no formato <code>multipart/form-data</code>. Esse arquivo deve conter as frases que serão agrupadas pelo algoritmo K-Means.
+</p>
+
+<p align="justify">
+O endpoint da aplicação é:
+</p>
+
+```text
+POST http://localhost:8000/
+```
+
+<p align="justify">
+O envio do arquivo pode ser realizado utilizando o comando <code>curl</code>:
+</p>
+
+```bash
+curl -X POST \
+     -F "file=@input.cluster" \
+     http://localhost:8000/
+```
+
+<p align="justify">
+Também é possível consumir a API utilizando Python e a biblioteca <code>requests</code>:
+</p>
+
+```python
+import requests
+
+url = "http://localhost:8000/"
+
+with open("input.cluster", "rb") as arquivo:
+    resposta = requests.post(
+        url,
+        files={"file": arquivo}
+    )
+
+with open("resultado.zip", "wb") as saida:
+    saida.write(resposta.content)
+
+print("Arquivo salvo com sucesso!")
+```
+
+<p align="justify">
+Após o processamento, a API retorna um arquivo compactado contendo uma planilha no formato <code>.xls</code>. Cada linha da planilha corresponde a uma frase do arquivo de entrada e apresenta o identificador do cluster atribuído pelo algoritmo, indicando o grupo semântico ao qual a frase pertence.
+</p>
